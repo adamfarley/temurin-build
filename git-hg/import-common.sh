@@ -13,19 +13,6 @@
 # limitations under the License.
 #
 
-# For terminal colors
-esc=$(echo -en "\033")
-error="${esc}[0;31m"
-normal=$(echo -en "${esc}[m\017")
-
-
-exit_script() {
-    if [[ -z ${KEEP} ]] ; then
-      docker ps -a | awk '{ print $1,$2 }' | grep "$CONTAINER" | awk '{print $1 }' | xargs -I {} docker rm -f {}
-    fi
-    echo "${error}Process exited${normal}"
-    trap - SIGINT SIGTERM # clear the trap
-    kill -- -$$ # Sends SIGTERM to child/sub processes
-}
-
-trap exit_script SIGINT SIGTERM 
+# import-common
+cd "$WORKSPACE" || exit 1
+export modules=(corba langtools jaxp jaxws hotspot nashorn jdk)
