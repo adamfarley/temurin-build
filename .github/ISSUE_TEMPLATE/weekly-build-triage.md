@@ -1,13 +1,12 @@
 ---
-name: Weekly Build Triage
+name: 🩺 Weekly Build Triage
 about: For triaging the nightly and weekend build failures
 title: 'Weekly build triage for the week starting <YYYY>/<MM>/<DD>'
 iconName: stethoscope
 labels: 'weekly-build-triage'
 ---
 
-This issue template is designed to create a consistent table of results that people can consult at-a-glance to get a sense of
-how the builds 
+*This week's build triage summary:*
 
 | Date       | Day     | JDK Version | Pipeline | Pass/Build Fail/Test Fail | Triage Status            | Triager | Breakdown    |
 | ---------- | ------- | ----------- | -------- | ------------------------- | ------------------------ | ------- | ------------ |
@@ -18,12 +17,12 @@ Note: "Test_Fail" is for when all the "build" jobs passed (build, sign, installe
       commonly unit tests that have failed for reasons unconnected to the build process itself.
 
 
-Comment template:
+*Comment template:*
 
 Triage breakdown for \<Pipeline link\>
 
 Table of failures:
 
-\| Build Fail\/Test Fail \| Platform   \| Failed Job \| Response                              \| Issue \| Triage Status              \| Notes  \|
-\| --------------------- \| ---------- \| ---------- \| ------------------------------------- \| ----- \| -------------------------- \| -----  \|
-\| Build Fail\/Test Fail \| e.g. win64 \| Link       \| Raise (Issue)/Existing (Issue)/Ignore \| Link  \| Pending\/In Progress\/Done \| Borked \|
+\| Build Fail\/Test Fail \| Platform   \| Failed Job \| Response                            \| Issue \| Triage Status              \| Notes  \| <br/>
+\| --------------------- \| ---------- \| ---------- \| ----------------------------------- \| ----- \| -------------------------- \| -----  \| <br/>
+\| Build Fail\/Test Fail \| e.g. win64 \| Link       \| New (Issue)/Existing (Issue)/Ignore \| Link  \| Pending\/In Progress\/Done \| Borked \|
