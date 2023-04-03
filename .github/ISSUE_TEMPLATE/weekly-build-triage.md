@@ -1,7 +1,8 @@
 ---
-name: :hospital: Weekly Build Triage
+name: Weekly Build Triage
 about: For triaging the nightly and weekend build failures
 title: 'Weekly build triage for the week starting <YYYY>/<MM>/<DD>'
+iconName: stethoscope
 labels: 'weekly-build-triage'
 ---
 
