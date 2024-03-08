@@ -12,7 +12,6 @@ on:
       - "security/**"
       - "cyclonedx-lib/**"
 
-
 # Cancel existing runs if user makes another push.
 concurrency:
   group: "${{ github.ref }}"
