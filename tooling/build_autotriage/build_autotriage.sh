@@ -96,7 +96,7 @@ argumentParser() {
       arrayOfUs+=("u")
     fi
 
-    echo "JDK version identified: ${1:3}"
+    echo "JDK version identified aaa: ${1:3}"
     shift
   done
 }
