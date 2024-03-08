@@ -9,7 +9,6 @@ on:
       - "sbin/**"
       - "**.sh"
       - "!tooling/build_autotriage/**"
-      - ".github/workflows/build.yml"
       - "security/**"
       - "cyclonedx-lib/**"
 
