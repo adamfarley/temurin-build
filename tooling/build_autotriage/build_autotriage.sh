@@ -20,7 +20,7 @@
 # the latest failed attempts to build Temurin at the Eclipse Adoptium project.
 # We then use a series of regular expressions to identify the cause of each
 # failure, and to output useful information to aid triage.
-#
+# aaa
 ################################################################################
 
 declare -a arrayOfFailedJobs
