@@ -225,6 +225,7 @@ identifyFailedBuildsInTimerPipelines() {
           fi
           if [[ ${latestJdk8Pipelines[0]} != "none" && ${latestJdk8Pipelines[1]} != "none" && ${latestJdk8Pipelines[2]} != "none" ]]; then
             echo "Found all 3 pipelines for JDK8."
+            exit 1
             break
           fi
         fi
