@@ -1,5 +1,5 @@
 #!/bin/sh
-# shellcheck disable=SC2155,SC2153,SC2038,SC1091,SC2116,SC2086,SC2006,SC2126,SC2236
+# shellcheck disable=SC2155,SC2153,SC2038,SC1091,SC2116,SC2086,SC2006,SC2126,SC2236,SC2009
 # ********************************************************************************
 # Copyright (c) 2017, 2024 Contributors to the Eclipse Foundation
 #
