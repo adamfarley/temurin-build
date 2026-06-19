@@ -19,6 +19,8 @@
 # On long run, the methods - due theirs similarity - should converge to one
 ####################################################################################
 
+
+
 # This function switches logic based on the (supported) os
 function downloadBootJDK() {
   if uname -o | grep -i -e Linux ; then
@@ -48,10 +50,10 @@ function downloadLinuxBootJDK() {
   # make-adopt-build-farm.sh has 'set -e'. We need to disable that for
   # the fallback mechanism, as downloading of the GA binary might fail.
   set +e
-  curl -L -o bootjdk.tar.gz "${apiURL}"
-  apiSigURL=$(curl -v "${apiURL}" 2>&1 | tr -d \\r | awk '/^< [Ll]ocation:/{print $3 ".sig"}')
+  curl -L -o --retry 3 --retry-connrefused --retry-delay 300 bootjdk.tar.gz "${apiURL}"
+  apiSigURL=$(curl -v --retry 3 --retry-connrefused --retry-delay 300 "${apiURL}" 2>&1 | tr -d \\r | awk '/^< [Ll]ocation:/{print $3 ".sig"}')
   if ! grep "No releases match the request" bootjdk.tar.gz; then
-    curl -L -o bootjdk.tar.gz.sig "${apiSigURL}"
+    curl -L -o --retry 3 --retry-connrefused bootjdk.tar.gz.sig "${apiSigURL}"
     gpg --keyserver keyserver.ubuntu.com --recv-keys 3B04D753C9050D9A5D343F39843C48A565F8F04B
     echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key 3B04D753C9050D9A5D343F39843C48A565F8F04B trust;
     gpg --verify bootjdk.tar.gz.sig bootjdk.tar.gz || exit 1
@@ -69,10 +71,10 @@ function downloadLinuxBootJDK() {
     apiURL=$(eval echo ${apiUrlTemplate})
     echo "Attempting to download EA release of boot JDK version ${VER} from ${apiURL}"
     set +e
-    curl -L -o bootjdk.tar.gz "${apiURL}"
+    curl -L -o --retry 3 --retry-connrefused bootjdk.tar.gz "${apiURL}"
     if ! grep "No releases match the request" bootjdk.tar.gz; then
-      apiSigURL=$(curl -v "${apiURL}" 2>&1 | tr -d \\r | awk '/^< [Ll]ocation:/{print $3 ".sig"}')
-      curl -L -o bootjdk.tar.gz.sig "${apiSigURL}"
+      apiSigURL=$(curl -v --retry 3 --retry-connrefused "${apiURL}" 2>&1 | tr -d \\r | awk '/^< [Ll]ocation:/{print $3 ".sig"}')
+      curl -L -o --retry 3 --retry-connrefused bootjdk.tar.gz.sig "${apiSigURL}"
       gpg --keyserver keyserver.ubuntu.com --recv-keys 3B04D753C9050D9A5D343F39843C48A565F8F04B
       echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key 3B04D753C9050D9A5D343F39843C48A565F8F04B trust;
       gpg --verify bootjdk.tar.gz.sig bootjdk.tar.gz || exit 1
@@ -87,7 +89,7 @@ function downloadLinuxBootJDK() {
       vendor="adoptium"
       apiURL=$(eval echo ${apiUrlTemplate})
       echo "Attempting to download GA release of boot JDK version ${VER} from ${apiURL}"
-      curl -L "${apiURL}" | tar xpzf - --strip-components=1 -C "$bootDir"
+      curl -L --retry 3 --retry-connrefused "${apiURL}" | tar xpzf - --strip-components=1 -C "$bootDir"
     fi
   fi
 }
@@ -110,7 +112,7 @@ function downloadWindowsBootJDK() {
         local url="$1"
         rm -f openjdk.zip                         # ← ensure no stale file
         set +e
-        curl -sSfL --retry 3 -o openjdk.zip "${url}"
+        curl -sSfL --retry 3 --retry-connrefused -o openjdk.zip "${url}"
         local rv=$?
         if [ $rv -eq 0 ]; then
             unzip -tq openjdk.zip >/dev/null 2>&1
