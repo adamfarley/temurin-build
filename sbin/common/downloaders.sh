@@ -19,8 +19,6 @@
 # On long run, the methods - due theirs similarity - should converge to one
 ####################################################################################
 
-
-
 # This function switches logic based on the (supported) os
 function downloadBootJDK() {
   if uname -o | grep -i -e Linux ; then
