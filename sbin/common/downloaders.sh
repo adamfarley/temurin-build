@@ -51,12 +51,14 @@ function downloadLinuxBootJDK() {
   curl -L --retry 3 --retry-connrefused --retry-delay 300 -o bootjdk.tar.gz "${apiURL}"
   apiSigURL=$(curl -v --retry 3 --retry-connrefused --retry-delay 300 "${apiURL}" 2>&1 | tr -d \\r | awk '/^< [Ll]ocation:/{print $3 ".sig"}')
   if ! grep "No releases match the request" bootjdk.tar.gz; then
+    # jscpd:ignore-start
     curl -L --retry 3 --retry-connrefused --retry-delay 300 -o bootjdk.tar.gz.sig "${apiSigURL}"
     gpg --keyserver keyserver.ubuntu.com --recv-keys 3B04D753C9050D9A5D343F39843C48A565F8F04B
     echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key 3B04D753C9050D9A5D343F39843C48A565F8F04B trust;
     gpg --verify bootjdk.tar.gz.sig bootjdk.tar.gz || exit 1
     mkdir "$bootDir"
     tar xpzf bootjdk.tar.gz --strip-components=1 -C "$bootDir"
+    # jscpd:ignore-end
     set -e
   else
     # We must be a JDK HEAD build for which no boot JDK exists other than
@@ -72,12 +74,14 @@ function downloadLinuxBootJDK() {
     curl -L --retry 3 --retry-connrefused --retry-delay 300 -o bootjdk.tar.gz "${apiURL}"
     if ! grep "No releases match the request" bootjdk.tar.gz; then
       apiSigURL=$(curl -v --retry 3 --retry-connrefused --retry-delay 300 "${apiURL}" 2>&1 | tr -d \\r | awk '/^< [Ll]ocation:/{print $3 ".sig"}')
+      # jscpd:ignore-start
       curl -L --retry 3 --retry-connrefused --retry-delay 300 -o bootjdk.tar.gz.sig "${apiSigURL}"
       gpg --keyserver keyserver.ubuntu.com --recv-keys 3B04D753C9050D9A5D343F39843C48A565F8F04B
       echo -e "5\ny\n" |  gpg --batch --command-fd 0 --expert --edit-key 3B04D753C9050D9A5D343F39843C48A565F8F04B trust;
       gpg --verify bootjdk.tar.gz.sig bootjdk.tar.gz || exit 1
       mkdir "$bootDir"
       tar xpzf bootjdk.tar.gz --strip-components=1 -C "$bootDir"
+      # jscpd:ignore-end
     else
       # If no binaries are available then try from adoptopenjdk
       echo "Downloading Temurin release of boot JDK version ${VER} failed."
